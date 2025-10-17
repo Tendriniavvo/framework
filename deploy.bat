@@ -4,7 +4,7 @@ REM Script de déploiement Windows pour compiler le framework et préparer le pr
 REM ------------------------------------------------------------------------
 
 REM Définition des chemins (à adapter si besoin)
-set "FRAMEWORK_DIR=D:\ITU\S5\framework\framework\framework"
+set "FRAMEWORK_DIR=D:\ITU\S5\framework"
 set "BUILD_DIR=%FRAMEWORK_DIR%\build"
 set "TEST_DIR=D:\xampp\tomcat\webapps\testFramework"
 set "SERVLET_JAR=%FRAMEWORK_DIR%\jakarta.servlet-api_5.0.0.jar"
