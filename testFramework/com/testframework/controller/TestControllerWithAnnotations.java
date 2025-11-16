@@ -19,4 +19,9 @@ public class TestControllerWithAnnotations {
     public String methodWithoutAnnotation() {
         return "No annotation";
     }
+    
+    @GetMapping("/bonjour")
+    public String bonjour() {
+        return "Bonjour du framework";
+    }
 }
