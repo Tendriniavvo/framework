@@ -55,11 +55,11 @@ if not exist "testFramework\WEB-INF\classes" mkdir "testFramework\WEB-INF\classe
 REM Copier config.properties
 copy "testFramework\resources\config.properties" "testFramework\WEB-INF\classes\"
 
-REM Compiler les controllers de test
-javac -classpath "build\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\controller\*.java
-javac -classpath "build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\admin\*.java
-javac -classpath "build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\util\*.java
-javac -classpath "build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\Main.java
+REM Compiler les controllers de test (ajouter l'API Servlet pour HttpServletRequest)
+javac -classpath "jakarta.servlet-api_5.0.0.jar;build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\controller\*.java
+javac -classpath "jakarta.servlet-api_5.0.0.jar;build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\admin\*.java
+javac -classpath "jakarta.servlet-api_5.0.0.jar;build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\util\*.java
+javac -classpath "jakarta.servlet-api_5.0.0.jar;build\classes;testFramework\WEB-INF\classes" -d "testFramework\WEB-INF\classes" testFramework\com\testframework\Main.java
 
 if errorlevel 1 (
     echo ERREUR: Échec de la compilation des classes de test!
@@ -100,7 +100,7 @@ echo.
 pause
 
 REM Étape 8: Déploiement automatique vers Tomcat (copie dans webapps)
-set "TOMCAT_WEBAPPS=D:\Pxampp\tomcat\webapps"
+set "TOMCAT_WEBAPPS=D:\xampp\tomcat\webapps"
 echo.
 echo 8. Déploiement vers %TOMCAT_WEBAPPS% ...
 
