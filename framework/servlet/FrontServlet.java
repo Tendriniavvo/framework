@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import framework.annotation.AnnotationReader;
 import framework.utilitaire.MappingInfo;
@@ -49,7 +50,22 @@ public class FrontServlet extends HttpServlet {
             Object controllerInstance = controllerClass.getDeclaredConstructor().newInstance();
             Method method = mapping.getMethod();
 
-            Object result = method.invoke(controllerInstance);
+            // Build method arguments: support HttpServletRequest/HttpServletResponse
+            Parameter[] params = method.getParameters();
+            Object[] args = new Object[params.length];
+            for (int i = 0; i < params.length; i++) {
+                Class<?> pt = params[i].getType();
+                if (HttpServletRequest.class.isAssignableFrom(pt)) {
+                    args[i] = req;
+                } else if (HttpServletResponse.class.isAssignableFrom(pt)) {
+                    args[i] = resp;
+                } else {
+                    // Unsupported parameter type; pass null for now
+                    args[i] = null;
+                }
+            }
+
+            Object result = method.invoke(controllerInstance, args);
 
             if (result instanceof String) {
                 resp.getWriter().write((String) result);
