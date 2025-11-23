@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Map;
 
 import framework.annotation.AnnotationReader;
 import framework.utilitaire.MappingInfo;
@@ -46,6 +47,14 @@ public class FrontServlet extends HttpServlet {
         }
 
         try {
+            // Expose path variables (if any) as request attributes
+            Map<String, String> vars = mapping.getLastPathVariables();
+            if (vars != null) {
+                for (Map.Entry<String, String> e : vars.entrySet()) {
+                    req.setAttribute(e.getKey(), e.getValue());
+                }
+            }
+
             Class<?> controllerClass = mapping.getControllerClass();
             Object controllerInstance = controllerClass.getDeclaredConstructor().newInstance();
             Method method = mapping.getMethod();
@@ -72,7 +81,7 @@ public class FrontServlet extends HttpServlet {
             } else if (result instanceof ModelAndView) {
                 ModelAndView mv = (ModelAndView) result;
                 // Set model attributes
-                for (java.util.Map.Entry<String, Object> entry : mv.getModel().entrySet()) {
+                for (Map.Entry<String, Object> entry : mv.getModel().entrySet()) {
                     req.setAttribute(entry.getKey(), entry.getValue());
                 }
                 // Forward to JSP view
