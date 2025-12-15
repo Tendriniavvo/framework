@@ -60,7 +60,7 @@ public class FrontServlet extends HttpServlet {
                 }
             }
 
-            // Build param map from request parameters and attach it
+            
             Map<String, Object> paramMap = RequestUtils.buildParamMap(req);
             req.setAttribute("params", paramMap);
 
