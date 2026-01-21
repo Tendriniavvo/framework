@@ -49,11 +49,11 @@ public class FrontServlet extends HttpServlet {
 
         System.out.println("FrontServlet handling: " + urlPath);
 
-        // Find mapping for the URL (method-aware)
+        
         String httpMethod = req.getMethod();
         MappingInfo mapping = AnnotationReader.findMappingByUrl(urlPath, httpMethod);
 
-        // Default content type (may be overridden for REST)
+        
         resp.setContentType("text/html;charset=UTF-8");
 
         if (mapping == null || !mapping.isFound()) {
@@ -63,11 +63,11 @@ public class FrontServlet extends HttpServlet {
         }
 
         try {
-            // Gestion multipart: si c'est une requête d'upload, on met les fichiers dans un attribut
+            
             if (req.getContentType() != null && req.getContentType().toLowerCase().startsWith("multipart/")) {
                 req.setAttribute("uploadedFiles", FileUploadUtils.getUploadedFiles(req));
             }
-            // Expose path variables (if any) as request attributes
+            
             Map<String, String> vars = mapping.getLastPathVariables();
             if (vars != null) {
                 for (Map.Entry<String, String> e : vars.entrySet()) {
