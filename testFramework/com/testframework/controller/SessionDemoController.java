@@ -4,6 +4,8 @@ import framework.annotation.Controller;
 import framework.annotation.GetMapping;
 import framework.annotation.Param;
 import framework.annotation.Session;
+import framework.annotation.Authorized;
+import framework.annotation.Role;
 import framework.utilitaire.ModelAndView;
 
 import java.util.Map;
@@ -29,6 +31,8 @@ public class SessionDemoController {
         return mv;
     }
 
+    @Authorized
+    @Role({"admin","manager"})
     @GetMapping("/sessionShow")
     public ModelAndView show(@Session Map<String, Object> session) {
         ModelAndView mv = new ModelAndView("/sessionView.jsp");
@@ -36,6 +40,8 @@ public class SessionDemoController {
         return mv;
     }
 
+    @Authorized
+    @Role({"admin","manager"})
     @GetMapping("/sessionRemove")
     public ModelAndView remove(@Session Map<String, Object> session,
                                @Param("key") String key) {
@@ -48,6 +54,8 @@ public class SessionDemoController {
         return mv;
     }
 
+    @Authorized
+    @Role({"admin","manager"})
     @GetMapping("/sessionClear")
     public ModelAndView clear(@Session Map<String, Object> session) {
         session.clear();
